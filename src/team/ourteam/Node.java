@@ -8,21 +8,28 @@ import java.util.HashMap;
  * @date 2020-11-07 14:38:16
  */
 public class Node {
+
     /**
      * num表示自己当前的编号，当然再此次实验中我们将Vector的序号与num对应了
+     * <p>
      * status表示当前的状态，由0（未激活）、1（正向传播）、-1（负向传播）组成
+     * <p>
      * influence表示该节点的对外影响力，即出度和
+     * <p>
      * relativeInfluence表示该节点的相对对外影响力
+     * <p>
      * beInfluenced表示该节点的被影响力，即入度和
+     * <p>
      * 两个HashMap分别表示出度表和入度表
      */
+
     int num;
     int status;
     double influence;
     double relativeInfluence;
     double beInfluenced;
-    HashMap<Integer, Double> outDegree = new HashMap<Integer, Double>();
-    HashMap<Integer, Double> degree = new HashMap<Integer, Double>();
+    HashMap<Integer, Double> outDegree = new HashMap<>();
+    HashMap<Integer, Double> degree = new HashMap<>();
 
 
     public Node(int num, int status, double influence,

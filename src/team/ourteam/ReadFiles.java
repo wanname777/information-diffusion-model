@@ -8,14 +8,25 @@ import java.util.Vector;
 
 /**
  * @author zhang
+ * <p>
+ * ReadFiles在这作为了纯粹的工具类
+ * <p>
+ * 构造方法私有
+ * <p>
+ * 成员方法静态
  */
 public class ReadFiles {
-    Vector<Node> nodeVector = new Vector<>();
 
-    public void loadLinks(String path) {
-        int tempNum = 20000;
+    int tempNum;
+
+    public ReadFiles(int tempNum) {
+        this.tempNum = tempNum;
+
+    }
+
+    public void loadLinks(String path, Vector<Node> nodeVector) {
         // 初始化vector
-        for (int i = 0; i < tempNum; i++) {
+        for (int i = 0; i < this.tempNum; i++) {
             nodeVector.add(new Node(i, 0, 0., 0., 0.));
         }
 
