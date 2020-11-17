@@ -1,10 +1,12 @@
 package team.ourteam;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 
 /**
  * @author zhang
+ * @version 1.0.0
  * @date 2020-11-07 14:38:16
  */
 public class Node {
@@ -39,6 +41,30 @@ public class Node {
         this.influence = influence;
         this.relativeInfluence = relativeInfluence;
         this.beInfluenced = beInfluenced;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Node node = (Node) o;
+        return num == node.num &&
+                status == node.status &&
+                Double.compare(node.influence, influence) == 0 &&
+                Double.compare(node.relativeInfluence, relativeInfluence) == 0 &&
+                Double.compare(node.beInfluenced, beInfluenced) == 0 &&
+                Objects.equals(outDegree, node.outDegree) &&
+                Objects.equals(degree, node.degree);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(num, status, influence, relativeInfluence,
+                beInfluenced, outDegree, degree);
     }
 
     @Override

@@ -52,7 +52,6 @@ public class ReadFiles {
 
                 // 计算当前点的出度和被指向点的入度
                 nodeVector.get(num1).outDegree.put(num2, d1 * d2);
-                nodeVector.get(num2).degree.put(num1, d1 * d2);
 
             }
 

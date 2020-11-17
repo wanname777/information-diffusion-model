@@ -1,7 +1,6 @@
 package team.ourteam;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Random;
 import java.util.Vector;
 
@@ -12,8 +11,8 @@ public class ICModel {
 
     Vector<Node> candidateNodeVector = new Vector<>();
     Vector<Node> nodeVector = new Vector<>();
-    HashSet<Integer> candidateNodeNumberSet = new HashSet<>();
-    HashMap<Double, Double> candidateNodeNumberMap = new HashMap<>();
+
+    HashMap<Integer, Double> candidateNodeNumberMap = new HashMap<>();
     int num;
 
     public ICModel(int num) {
@@ -26,26 +25,6 @@ public class ICModel {
 
         ReadFiles readFiles = new ReadFiles(this.num);
         readFiles.loadLinks(path, nodeVector);
-
-        // 用普通迭代计算每个结点的影响力和被影响力
-        for (Node pNode : nodeVector) {
-            pNode.computeInfluence();
-            pNode.computeBeInfluenced();
-
-            // 如果该节点的入度图为空，则被影响力应为1.
-            if (pNode.degree.isEmpty()) {
-                pNode.beInfluenced = 1;
-            }
-
-        }
-        // 计算相对影响力，必须是计算完影响力和被影响力后才能计算
-        for (Node pNode : nodeVector) {
-            pNode.outDegree
-                    .forEach((k, v) -> pNode.relativeInfluence += v / nodeVector.get(k).beInfluenced);
-        }
-
-        //依靠nodeVector来访问不同的结点
-//        System.out.println(nodeVector.get(1146));
     }
 
     public void simulation(int number) {
@@ -65,23 +44,28 @@ public class ICModel {
             }
             nodes.remove(pNode);
         }
-        System.out.println(nodes1.size());
+        System.out.println("获得" + nodes1.size() + "个备选点");
         greedySimulation(number, nodes1);
     }
 
     public void greedySimulation(int number, Vector<Node> nodes) {
+        boolean[] vis = new boolean[this.num];
 
         for (int i = 0; i < number; i++) {
             //simulate and choose the best
 
             double maxValue;
-            double maxIndex;
-            maxIndex = maxValue = -1;
-            double tempNum = 5;
+            int maxIndex;
+            maxIndex = -1;
+            maxValue = -1.;
+            double tempNum = 10;
 
+            System.out.println("ddd");
             // 贪心
-            // todo 把参数完全隔离似乎也并不完全是好事，diffuse的算法似乎还有一些问题
             for (Node pn : nodes) {
+                if (vis[pn.num]) {
+                    continue;
+                }
                 // tempNum此测试
                 double count = 0;
                 Vector<Node> nodes1 = new Vector<>();
@@ -100,8 +84,9 @@ public class ICModel {
                 }
             }
             candidateNodeNumberMap.put(maxIndex, maxValue);
-            Node pNode = nodeVector.get((int) maxIndex);
+            Node pNode = nodeVector.get(maxIndex);
             candidateNodeVector.add(pNode);
+            vis[maxIndex] = true;
 
             // 清空
 
@@ -110,6 +95,10 @@ public class ICModel {
 
         Diffuse diffuse = new Diffuse(candidateNodeVector, nodeVector,
                 this.num);
+
+        System.out.println("单点正向扩散值：");
+        System.out.println(this.candidateNodeNumberMap);
+        System.out.println("总体正向扩散值：");
         System.out.println(diffuse.cal());
     }
 }

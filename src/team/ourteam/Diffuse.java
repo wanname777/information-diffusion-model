@@ -5,7 +5,9 @@ import java.util.Queue;
 import java.util.Vector;
 
 /**
- * @author zhang
+ * @author tang
+ * @version 2.0.0
+ * @date 2020-11-07 14:38:16
  */
 public class Diffuse {
     Vector<Node> candidateNodeVector;
@@ -42,7 +44,7 @@ public class Diffuse {
             for (int m = 0; m < list1.size(); m++) {
                 Node pNode = nodeVector.get(list1.poll());
                 pNode.outDegree.forEach((k, v) -> {
-                    if (!beActivated[k] && Math.abs(v) >= Math.random() * 0.03) {
+                    if (!beActivated[k] && Math.abs(v) >= Math.random() * 0.05) {
                         beActivated[k] = true;
                         flag[k] = flag[pNode.num] * v > 0 ? 1 : -1;
                         list1.offer(k);
