@@ -1,8 +1,6 @@
 package team.ourteam;
 
 
-import java.util.Vector;
-
 /**
  * @author zhang
  * @version 2.1.0
@@ -11,7 +9,7 @@ import java.util.Vector;
 public class Main {
     public static void main(String[] args) {
         // 加载数据
-        ICModel tempModel = new ICModel(20000);
+        IndependentCascadeModel tempModel = new IndependentCascadeModel(20000);
         String path = "src/text/links.txt";
         tempModel.loadNodes(path);
 
@@ -20,7 +18,9 @@ public class Main {
         tempModel.simulation(10);
         Long endTime = System.currentTimeMillis();
         System.out.println("耗时：" + (endTime - startTime) / 1000 + "秒");
+
 /*
+        // 随机选点测试
         Vector<Node> nodeVector=new Vector<>();
         nodeVector.add(tempModel.nodeVector.get(1218));
         nodeVector.add(tempModel.nodeVector.get(1193));

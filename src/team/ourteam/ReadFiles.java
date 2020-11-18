@@ -8,14 +8,13 @@ import java.util.Vector;
 
 /**
  * @author zhang
- * <p>
- * ReadFiles在这作为了纯粹的工具类
- * <p>
- * 构造方法私有
- * <p>
- * 成员方法静态
+ * @version 1.0.0
+ * @date 2020-11-07 14:38:16
  */
 public class ReadFiles {
+    /**
+     * tempNum为模拟节点数量
+     */
 
     int tempNum;
 
@@ -24,16 +23,21 @@ public class ReadFiles {
 
     }
 
+    /**
+     * @param path       文件路径
+     * @param nodeVector 节点容器
+     */
     public void loadLinks(String path, Vector<Node> nodeVector) {
         // 初始化vector
         for (int i = 0; i < this.tempNum; i++) {
-            nodeVector.add(new Node(i, 0, 0., 0., 0.));
+            nodeVector.add(new Node(i));
         }
 
         LineNumberReader reader = null;
         FileReader in = null;
         String[] pairs;
 
+        // try-catch
         try {
             in = new FileReader(path);
             reader = new LineNumberReader(in);
