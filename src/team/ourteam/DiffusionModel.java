@@ -9,7 +9,7 @@ import java.util.Vector;
  * @version 2.0.0
  * @date 2020-11-07 14:38:16
  */
-public class Diffuse {
+public class DiffusionModel {
 
     /**
      * candidateNodeVector表示选出来的点集
@@ -22,7 +22,8 @@ public class Diffuse {
     Vector<Node> nodeVector;
     int num;
 
-    public Diffuse(Vector<Node> candidateNodeVector, Vector<Node> nodeVector
+    public DiffusionModel(Vector<Node> candidateNodeVector,
+                          Vector<Node> nodeVector
             , int num) {
         this.candidateNodeVector = candidateNodeVector;
         this.nodeVector = nodeVector;
@@ -55,7 +56,7 @@ public class Diffuse {
 
             Node pNode = nodeVector.get(list1.poll());
             pNode.outDegree.forEach((k, v) -> {
-                if (!beActivated[k] && Math.abs(v) >= Math.random() * 0.05) {
+                if (!beActivated[k] && Math.abs(v) >= Math.random()) {
                     beActivated[k] = true;
                     flag[k] = flag[pNode.num] * v > 0 ? 1 : -1;
                     list1.offer(k);

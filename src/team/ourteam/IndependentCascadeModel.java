@@ -41,22 +41,30 @@ public class IndependentCascadeModel {
      * @apiNote 通过模拟选出所需的number个点，该函数含内置超参数
      */
     public void simulation(int number) {
+        int count = 0;
+        double threshold = 0;
         Vector<Node> nodes = new Vector<>();
         Vector<Node> nodes1 = new Vector<>();
         Random random = new Random(25);
 
         // 随机模拟先选出一部分点
-        for (int i = 0; i < 5000; i++) {
+        for (int i = 1; i <= 100000; i++) {
 
             Node pNode = nodeVector.get(random.nextInt(this.num));
-            nodes.add(pNode);
-            Diffuse diffuse = new Diffuse(nodes, nodeVector, this.num);
-            if (diffuse.calculate() > 2500 && !nodes1.contains(pNode)) {
-                nodes1.add(pNode);
+            if (!nodes1.contains(pNode)) {
+                nodes.add(pNode);
+                DiffusionModel diffusionModel = new DiffusionModel(nodes,
+                        nodeVector, this.num);
+                double imp = diffusionModel.calculate();
+                if (imp > 10) {
+                    nodes1.add(pNode);
+                }
+                nodes.remove(pNode);
             }
-            nodes.remove(pNode);
         }
         System.out.println("获得" + nodes1.size() + "个备选点");
+
+
         greedySimulation(number, nodes1);
     }
 
@@ -75,7 +83,7 @@ public class IndependentCascadeModel {
             int maxIndex;
             maxIndex = -1;
             maxValue = -1.;
-            double tempNum = 5;
+            double tempNum = 5000;
 
             System.out.println("Done" + i);
             // 贪心
@@ -87,9 +95,10 @@ public class IndependentCascadeModel {
                 double count = 0;
                 Vector<Node> nodes1 = new Vector<>();
                 nodes1.add(pn);
-                Diffuse diffuse = new Diffuse(nodes1, nodeVector, this.num);
+                DiffusionModel diffusionModel = new DiffusionModel(nodes1,
+                        nodeVector, this.num);
                 for (int n = 0; n < tempNum; n++) {
-                    double tempCount = diffuse.calculate();
+                    double tempCount = diffusionModel.calculate();
                     count += tempCount;
 
                 }
@@ -106,13 +115,14 @@ public class IndependentCascadeModel {
         }
 
         // 总体模拟获得最终结果
-        Diffuse diffuse = new Diffuse(candidateNodeVector, nodeVector,
-                this.num);
+        DiffusionModel diffusionModel =
+                new DiffusionModel(candidateNodeVector, nodeVector,
+                        this.num);
 
         System.out.println("单点正向扩散值：");
         System.out.println(this.candidateNodeNumberMap);
         System.out.println("总体正向扩散值：");
-        System.out.println(diffuse.calculate());
+        System.out.println(diffusionModel.calculate());
     }
 }
 
